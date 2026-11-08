@@ -2,18 +2,21 @@ import torch
 from mancala_game import MancalaGame
 from agent import Agent
 from model import Linear_QNet
+import random
 
 def main():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     game = MancalaGame(True, [0, 1])
-    model = Linear_QNet(14, 256, 6).to(device)
-    model.load_state_dict(torch.load("model/model1.pth", map_location=torch.device(device), weights_only=True))
+    model = Linear_QNet(15, 256, 6).to(device)
+    model.load_state_dict(torch.load("model/model.pth", map_location=torch.device(device), weights_only=True))
     model.eval()
     agent = Agent(model)
     ge = True
+    player_turn = random.randint(0,1)
+    print(f"your turn is {player_turn}")
     while ge:
         game.show()
-        if game.player == 0:
+        if game.player == player_turn:
             idx = game.action()
         else:
             state = agent.get_state(game)

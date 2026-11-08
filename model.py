@@ -65,6 +65,10 @@ class QTrainer:
                 Q_new = reward[idx] + self.gamma * torch.max(self.model(next_state[idx]))
             target[idx][int(action[idx].item())] = Q_new
 
+            for illegal in range(6):
+                if state[idx][illegal].item() == 0:
+                    target[idx][illegal] = -100
+
         # 2. r + y * max(next_predicted Q value) -> only do if not done
         # pred.clone()
         # preds[argmax(action)] = Q_new

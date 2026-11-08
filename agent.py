@@ -9,7 +9,7 @@ from model import Linear_QNet, QTrainer
 MAX_MEMORY = 100000
 BATCH_SIZE = 1000
 EPSILON = 1000
-EPOCH = 5000 
+EPOCH = 5000
 LR = 0.001
 
 
@@ -21,11 +21,12 @@ class Agent:
        self.gamma = 0.9 #smaller than 1
        self.memory = deque(maxlen=MAX_MEMORY) # if exceed memory do popleft
        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-       self.model = Linear_QNet(14, 256, 6).to(self.device) if model is None else model
+       self.model = Linear_QNet(15, 256, 6).to(self.device) if model is None else model
        self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma, device=self.device)
 
-    def get_state(self, game):
+    def get_state(self, game : MancalaGame):
         state = np.concatenate((game.plate[game.player], game.plate[(game.player+1)%2]))
+        state = np.concatenate((state, np.array([game.player])))
         return np.array(state, dtype=int)
 
     def remember(self, state, action, reward, next_state, done):

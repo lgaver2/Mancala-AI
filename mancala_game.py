@@ -60,9 +60,12 @@ class MancalaGame:
             if idx < 7:
                 stones -= 1
                 self.plate[overTurn, idx] += 1
+                if overTurn != self.player:
+                    # inside opponent zone penality
+                    reward -= 1
                 if idx == 6:
                     if overTurn == self.player:
-                        reward += 1
+                        reward += 10
                     else:
                         # if oppoent basket do nothing (skip)
                         stones += 1
@@ -80,12 +83,11 @@ class MancalaGame:
                     self.plate[overTurn, idx] = 0
                     self.plate[oppo, idx] = 0
                     self.plate[self.player, 6] += capture
-                    reward += capture
+                    reward += 10 * capture + 5
             else:
                 # inside opponent zone
                 idx = -1 
                 overTurn = (overTurn + 1) % 2
-                reward -= 3
         return False, reward
 
 

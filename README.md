@@ -30,8 +30,8 @@ The code is inspired from [freeCodeCamp.org](https://www.youtube.com/watch?v=L8y
 The agent play against itself to train both first turn and second turn.
 
 The rewards I set are the following:
-- One point for each stone which enter in the own goal.
+- 10 * point for each stone which enter in the own goal.
 - 5 points if put the last stone in the own goal (in other gain one more turn).
-- -3 points if enters in the opponent side.
+- -1 points for each stone put in the opponent zone. 
 - 100 if won the game.
 - -100 if lost the game.
